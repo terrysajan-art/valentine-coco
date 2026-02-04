@@ -66,7 +66,7 @@
       color: white;
     }
 
-    /* Heart burst */
+    /* Heart burst on hover */
     .burst-heart {
       position: absolute;
       color: #ff4d8d;
@@ -80,5 +80,149 @@
       100% { transform: scale(1.5) translateY(-40px); opacity: 0; }
     }
 
+    /* Popup */
     .popup {
       position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: white;
+      color: #ff2f6d;
+      padding: 16px 22px;
+      border-radius: 20px;
+      font-size: 16px;
+      display: none;
+      z-index: 3;
+      max-width: 90%;
+    }
+
+    /* Floating hearts */
+    .heart {
+      position: absolute;
+      color: rgba(255, 255, 255, 0.8);
+      animation: float 10s linear infinite;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(100vh); opacity: 1; }
+      100% { transform: translateY(-10vh); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <div>
+    <h1>Will you be my Valentine Coco? &lt;3</h1>
+    <div id="countdown"></div>
+
+    <div class="container">
+      <button id="yes">Yes 💖</button>
+      <button id="no">No</button>
+    </div>
+  </div>
+
+  <div class="popup" id="popup">
+    You thought no was an option? You're stuck with me bby.
+  </div>
+
+  <audio id="bgMusic" src="E85.mp3"></audio>
+
+  <script>
+    const noBtn = document.getElementById("no");
+    const yesBtn = document.getElementById("yes");
+    const container = document.querySelector(".container");
+    const popup = document.getElementById("popup");
+    const music = document.getElementById("bgMusic");
+    const countdownEl = document.getElementById("countdown");
+
+    let scale = 1;
+    let startTime = null;
+    let popupShown = false;
+    let musicStarted = false;
+
+    function startMusic() {
+      if (!musicStarted) {
+        music.play().catch(() => {});
+        musicStarted = true;
+      }
+    }
+
+    // No button escape + shrink + popup
+    function moveNo() {
+      startMusic();
+
+      if (!startTime) startTime = Date.now();
+      const elapsed = (Date.now() - startTime) / 1000;
+
+      if (elapsed >= 5 && !popupShown) {
+        popupShown = true;
+        popup.style.display = "block";
+        setTimeout(() => popup.style.display = "none", 5000);
+      }
+
+      scale = Math.max(0.4, scale - 0.05);
+      noBtn.style.transform = `scale(${scale})`;
+
+      const maxX = container.clientWidth - noBtn.offsetWidth;
+      const maxY = container.clientHeight - noBtn.offsetHeight;
+
+      noBtn.style.left = Math.random() * maxX + "px";
+      noBtn.style.top = Math.random() * maxY + "px";
+    }
+
+    noBtn.addEventListener("mouseenter", moveNo);
+    noBtn.addEventListener("touchstart", moveNo);
+
+    // Yes button click → go to yes.html
+    yesBtn.addEventListener("click", () => {
+      startMusic();
+      window.location.href = "yes.html";
+    });
+
+    // Heart burst on hover/tap
+    function heartBurst(e) {
+      for (let i = 0; i < 6; i++) {
+        const heart = document.createElement("div");
+        heart.className = "burst-heart";
+        heart.innerHTML = "💖";
+        heart.style.left = e.offsetX + "px";
+        heart.style.top = e.offsetY + "px";
+        e.target.appendChild(heart);
+        setTimeout(() => heart.remove(), 1000);
+      }
+    }
+
+    yesBtn.addEventListener("mouseenter", heartBurst);
+    yesBtn.addEventListener("touchstart", heartBurst);
+
+    // Floating background hearts
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.innerHTML = Math.random() > 0.5 ? "❤️" : "💖";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.fontSize = 16 + Math.random() * 24 + "px";
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 12000);
+    }
+    setInterval(createHeart, 300);
+
+    // Countdown to Valentine's Day
+    function updateCountdown() {
+      const now = new Date();
+      const year = now.getMonth() > 1 ? now.getFullYear() + 1 : now.getFullYear();
+      const valentines = new Date(year, 1, 14);
+      const diff = valentines - now;
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const mins = Math.floor((diff / (1000 * 60)) % 60);
+
+      countdownEl.textContent = `💌 Valentine’s Day in ${days}d ${hours}h ${mins}m`;
+    }
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+  </script>
+</body>
+</html>
+;
