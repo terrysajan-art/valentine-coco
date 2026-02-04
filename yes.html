@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>My Valentine 💕</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    body {
+      margin: 0;
+      padding: 30px;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #ff5f9e, #ff8fab);
+      color: white;
+      font-family: Arial, sans-serif;
+      overflow-x: hidden;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.15);
+      padding: 30px;
+      border-radius: 25px;
+      max-width: 700px;
+      margin: auto;
+      line-height: 1.6;
+      font-size: clamp(16px, 3vw, 20px);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .heart {
+      position: absolute;
+      color: rgba(255, 255, 255, 0.8);
+      animation: float 10s linear infinite;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(100vh);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-10vh);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h1>💘 My Valentine 💘</h1>
+
+    <p>
+      Thank you for accepting me to be your valentine again this year!
+      Although I am your fiancé, I will continue to ask you to be mine on
+      the special day for eternity!
+    </p>
+
+    <p>
+      Since you clicked Yes, we will be doing a staycation this year since
+      it has been forever and a day since we have done one.
+      We will be getting dinner at Mesume at 9 pm.
+      (I know we have already been there but there is like 0 reservations
+      anywhere else).
+    </p>
+
+    <p>
+      I love you forever Coco.<br><br>
+      Sincerely,<br>
+      Your Fiancé<br>
+      <strong>Terry Sajan</strong>
+    </p>
+  </div>
+
+  <script>
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.innerHTML = Math.random() > 0.5 ? "❤️" : "💖";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.fontSize = 16 + Math.random() * 24 + "px";
+      document.body.appendChild(heart);
+
+      setTimeout(() => heart.remove(), 12000);
+    }
+
+    setInterval(createHeart, 400);
+  </script>
+
+</body>
+</html>
