@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Valentine 💘</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Arial', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      height: 100vh;
+      overflow: hidden;
+      background: linear-gradient(135deg, #ff5f9e, #ff8fab);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    h1 {
+      color: white;
+      font-size: clamp(24px, 5vw, 40px);
+      margin-bottom: 40px;
+      z-index: 2;
+    }
+
+    .container {
+      position: relative;
+      width: 100%;
+      max-width: 350px;
+      height: 250px;
+      z-index: 2;
+    }
+
+    button {
+      padding: 14px 28px;
+      font-size: 18px;
+      border-radius: 30px;
+      border: none;
+      cursor: pointer;
+    }
+
+    #yes {
+      background: white;
+      color: #ff4d8d;
+      margin-bottom: 20px;
+    }
+
+    #no {
+      position: absolute;
+      background: #ff2f6d;
+      color: white;
+    }
+
+    .popup {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: white;
+      color: #ff2f6d;
+      padding: 16px 22px;
+      border-radius: 20px;
+      font-size: 16px;
+      display: none;
+      z-index: 3;
+      max-width: 90%;
+    }
+
+    /* Floating hearts */
+    .heart {
+      position: absolute;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 20px;
+      animation: float 10s linear infinite;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(100vh) scale(0.8);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-10vh) scale(1.2);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div>
+    <h1>Will you be my Valentine Coco? &lt;3</h1>
+
+    <div class="container">
+      <button id="yes" onclick="goYes()">Yes 💖</button>
+      <button id="no">No</button>
+    </div>
+  </div>
+
+  <div class="popup" id="popup">
+    You thought no was an option? You're stuck with me bby.
+  </div>
+
+  <script>
+    const noBtn = document.getElementById("no");
+    const container = document.querySelector(".container");
+    const popup = document.getElementById("popup");
+
+    let scale = 1;
+    let startTime = null;
+    let popupShown = false;
+
+    function moveNo() {
+      if (!startTime) startTime = Date.now();
+
+      const elapsed = (Date.now() - startTime) / 1000;
+
+      if (elapsed >= 5 && !popupShown) {
+        popupShown = true;
+        popup.style.display = "block";
+        setTimeout(() => popup.style.display = "none", 5000);
+      }
+
+      scale = Math.max(0.4, scale - 0.05);
+      noBtn.style.transform = `scale(${scale})`;
+
+      const maxX = container.clientWidth - noBtn.offsetWidth;
+      const maxY = container.clientHeight - noBtn.offsetHeight;
+
+      noBtn.style.left = Math.random() * maxX + "px";
+      noBtn.style.top = Math.random() * maxY + "px";
+    }
+
+    noBtn.addEventListener("mouseenter", moveNo);
+    noBtn.addEventListener("touchstart", moveNo);
+
+    function goYes() {
+      window.location.href = "yes.html";
+    }
+
+    // Create floating hearts
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.innerHTML = Math.random() > 0.5 ? "❤️" : "💖";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.animationDuration = 8 + Math.random() * 5 + "s";
+      heart.style.fontSize = 16 + Math.random() * 24 + "px";
+      document.body.appendChild(heart);
+
+      setTimeout(() => heart.remove(), 13000);
+    }
+
+    setInterval(createHeart, 300);
+  </script>
+
+</body>
+</html>
