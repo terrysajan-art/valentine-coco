@@ -2,9 +2,91 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Yes Page Test</title>
+  <title>Valentine 💖</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      height: 100vh;
+      overflow: hidden;
+      background: linear-gradient(135deg, #ff5f9e, #ff8fab);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .message-container {
+      position: relative;
+      max-width: 600px;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 20px;
+      z-index: 2;
+    }
+
+    .message-container h1 {
+      color: white;
+      font-size: clamp(24px, 5vw, 36px);
+      margin-bottom: 20px;
+    }
+
+    .message-container p {
+      color: white;
+      font-size: 18px;
+      line-height: 1.5;
+      margin-bottom: 15px;
+    }
+
+    .heart {
+      position: absolute;
+      color: rgba(255, 255, 255, 0.8);
+      animation: float 10s linear infinite;
+      user-select: none;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(100vh); opacity: 1; }
+      100% { transform: translateY(-10vh); opacity: 0; }
+    }
+  </style>
 </head>
 <body>
-  <h1>Yes page loaded successfully!</h1>
+
+  <div class="message-container">
+    <h1>Thank you for accepting me to be your Valentine again this year! 💖</h1>
+    <p>Although I am your fiancé, I will continue to ask you to be mine on the special day for eternity!</p>
+    <p>Since you clicked Yes, we will be doing a staycation this year since it has been forever and a day since we have done one. We will be getting dinner at Mesume at 9 pm. (I know we have already been there but there is like 0 reservations anywhere else).</p>
+    <p>I love you forever Coco.</p>
+    <p><strong>Sincerely, Your Fiancé<br>Terry Sajan</strong></p>
+  </div>
+
+  <audio id="bgMusic" src="E85.mp3" autoplay loop></audio>
+
+  <script>
+    const music = document.getElementById("bgMusic");
+
+    // Try to continue music if it was already started
+    music.volume = 0.8;
+    music.play().catch(() => { /* user must interact to start on mobile */ });
+
+    // Floating background hearts
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.innerHTML = Math.random() > 0.5 ? "❤️" : "💖";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.fontSize = 16 + Math.random() * 24 + "px";
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 12000);
+    }
+    setInterval(createHeart, 300);
+  </script>
 </body>
 </html>
